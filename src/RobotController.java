@@ -4,19 +4,27 @@ public class RobotController extends DifferentialWheels {
 
 
     public static void main(String [] args) {
-        Behaviour search = new SearchBall();
-        Behaviour drive = new DriveToBall();
-        Behaviour balance = new BalanceBall();
-        Behaviour part = new PartFromBall();
+        RobotController controller = new RobotController();
+        controller.run();
 
-        if (part.activatable()) {
+    }
 
-        } else if (balance.activatable()) {
+    public void run(){
+        while (step(15) != -1) {
+            Behaviour searchBall = new SearchBall();
+            Behaviour driveToBall = new DriveToBall();
+            Behaviour balanceBall = new BalanceBall();
+            Behaviour partFromBall = new PartFromBall();
 
-        } else if (drive.activatable()) {
+            if (partFromBall.activatable()) {
 
-        } else if (search.activatable()) {
+            } else if (balanceBall.activatable()) {
 
+            } else if (driveToBall.activatable()) {
+
+            } else if (searchBall.activatable()) {
+
+            }
         }
     }
 }
