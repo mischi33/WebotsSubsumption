@@ -1,13 +1,17 @@
 import com.cyberbotics.webots.controller.Camera;
 import com.cyberbotics.webots.controller.DifferentialWheels;
+import com.cyberbotics.webots.controller.DistanceSensor;
 
 public class RobotController extends DifferentialWheels {
     private Camera camera;
     private int height;
     private int width;
+    private static RobotController controller;
 
-    public RobotController(int sensorResponse) {
-
+    private RobotController(int sensorResponse, String... sensorNames) {
+        for (String sensorName : sensorNames) {
+            getDistanceSensor(sensorName).enable(sensorResponse);
+        }
         camera = getCamera(getCameraName());
         camera.enable(sensorResponse);
         height = camera.getHeight();
@@ -16,6 +20,14 @@ public class RobotController extends DifferentialWheels {
         this.getAccelerometer(getAccelerometerName()).enable(sensorResponse);
 
         this.enableEncoders(sensorResponse);
+    }
+
+    public static RobotController getInstance() {
+        if (controller == null) {
+            controller = new RobotController(10, "ps0", "ps1", "ps2", "ps3", "ps4", "ps5", "ps6", "ps7");
+            return controller;
+        }
+        return controller;
     }
 
 
@@ -62,7 +74,7 @@ public class RobotController extends DifferentialWheels {
         return new double[]{this.getLeftEncoder(), this.getRightEncoder()};
     }
 
-    private int calcRed() {
+    public int calcRed() {
         int[] image = getCameraValues();
         int red = 0;
         for (int i = width / 3; i < 2 * width / 3; i++) {
@@ -75,26 +87,27 @@ public class RobotController extends DifferentialWheels {
 
 
     public static void main(String[] args) {
-        RobotController controller = new RobotController(10);
+        RobotController controller = RobotController.getInstance();
         controller.run();
 
     }
 
     public void run() {
+        Behaviour searchBall = new SearchBall();
+        Behaviour driveToBall = new DriveToBall();
+        Behaviour balanceBall = new BalanceBall();
+        Behaviour partFromBall = new PartFromBall();
+
         while (step(15) != -1) {
-            Behaviour searchBall = new SearchBall();
-            Behaviour driveToBall = new DriveToBall();
-            Behaviour balanceBall = new BalanceBall();
-            Behaviour partFromBall = new PartFromBall();
-
             if (partFromBall.activatable()) {
-
+                partFromBall.calcSpeed();
             } else if (balanceBall.activatable()) {
-
+                balanceBall.calcSpeed();
             } else if (driveToBall.activatable()) {
-
+                driveToBall.calcSpeed();
             } else if (searchBall.activatable()) {
-
+                double[] speedValues =  searchBall.calcSpeed();
+                setSpeed(speedValues[0], speedValues[1]);
             }
         }
     }
