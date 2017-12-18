@@ -1,5 +1,4 @@
 public class SearchBall extends Behaviour {
-    private boolean ballFound = false;
 
     @Override
     public boolean activatable() {
@@ -8,8 +7,7 @@ public class SearchBall extends Behaviour {
 
     @Override
     public double[] calcSpeed() {
-        double left = controller.calcRed() - 24100;
-        return new double[]{left, 0.0};
+        return new double[]{1000.0, 100.0};
     }
 
 }

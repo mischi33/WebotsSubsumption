@@ -1,11 +1,14 @@
 public class DriveToBall extends Behaviour {
     @Override
     public boolean activatable() {
-        return false;
+        return controller.calcRed() < 28000;
     }
 
     @Override
     public double[] calcSpeed() {
-        return new double[0];
+       return new double[] {800.0, 800.0};
     }
+
+
+
 }
