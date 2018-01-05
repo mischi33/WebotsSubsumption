@@ -80,8 +80,8 @@ public class RobotController extends DifferentialWheels {
         int red = 0;
         int green = 0;
         int blue = 0;
-        for (int i = getCameraWidth() / 3; i < 2 * getCameraWidth() / 3; i++) {
-            for (int j = getCameraHeight() / 2; j < 3 * getCameraHeight() / 4; j++) {
+        for (int i = getCameraWidth() / 2 - 2; i < getCameraWidth() / 2 + 2; i++) {
+            for (int j = getCameraHeight() / 2 - 2; j < getCameraHeight() / 2 + 2; j++) {
                 red += Camera.imageGetRed(image, getCameraWidth(), i, j);
                 green += Camera.imageGetGreen(image, getCameraWidth(), i, j);
                 blue += Camera.imageGetBlue(image, getCameraWidth(), i, j);
@@ -124,7 +124,7 @@ public class RobotController extends DifferentialWheels {
 
             } else if (searchBall.activatable()) {
                 System.out.println("Search Ball.");
-                speedValues =  searchBall.calcSpeed();
+                speedValues = searchBall.calcSpeed();
 
             }
             setSpeed(speedValues[0] > 1000 ? 1000 : speedValues[0], speedValues[1] > 1000 ? 1000 : speedValues[1]);

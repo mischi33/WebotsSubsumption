@@ -1,6 +1,6 @@
 public class DriveBack extends Behaviour {
     private boolean reachedWall = false;
-    private int driveBackValue=400;
+    private int driveBackValue=150;
 
     @Override
     public boolean activatable() {
@@ -15,7 +15,7 @@ public class DriveBack extends Behaviour {
             return true;
         }
         if (driveBackValue <= 0 ) {
-            driveBackValue=400;
+            driveBackValue=150;
             reachedWall = false;
         }
         return false;
@@ -23,6 +23,6 @@ public class DriveBack extends Behaviour {
 
     @Override
     public double[] calcSpeed() {
-        return new double[]{-970, -1000};
+        return new double[]{-900, -1000};
     }
 }
