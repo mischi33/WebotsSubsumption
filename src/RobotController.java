@@ -15,6 +15,15 @@ public class RobotController extends DifferentialWheels {
         camera.enable(sensorResponse);
         height = camera.getHeight();
         width = camera.getWidth();
+        getLightSensor("ls0").enable(sensorResponse);
+        getLightSensor("ls1").enable(sensorResponse);
+        getLightSensor("ls2").enable(sensorResponse);
+        getLightSensor("ls3").enable(sensorResponse);
+        getLightSensor("ls4").enable(sensorResponse);
+        getLightSensor("ls5").enable(sensorResponse);
+        getLightSensor("ls6").enable(sensorResponse);
+        getLightSensor("ls7").enable(sensorResponse);
+
 
         this.getAccelerometer(getAccelerometerName()).enable(sensorResponse);
 
@@ -101,23 +110,17 @@ public class RobotController extends DifferentialWheels {
         Behaviour searchBall = new SearchBall();
         Behaviour driveToBall = new DriveToBall();
         Behaviour balanceBall = new BalanceBall();
-        Behaviour partFromBall = new PartFromBall();
+        Behaviour driveToMiddle = new DriveToMiddle();
 
         while (step(15) != -1) {
 
-            for (double v : this.getAccelerometer(getAccelerometerName()).getValues()) {
-                System.out.println("ACCELEROMETER: " + v);
-            }
-            for (double v : this.getEncoderValues()) {
-                System.out.println("ENCODER: " + v);
-            }
 
 
             double[] speedValues = new double[2];
 
-            if (partFromBall.activatable()) {
+            if (driveToMiddle.activatable()) {
                 System.out.println("Part from Ball.");
-                speedValues = partFromBall.calcSpeed();
+                speedValues = driveToMiddle.calcSpeed();
 
             } else if (balanceBall.activatable()) {
                 System.out.println("Balance Ball.");
