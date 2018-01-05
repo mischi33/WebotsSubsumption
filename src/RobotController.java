@@ -2,19 +2,13 @@ import com.cyberbotics.webots.controller.Camera;
 import com.cyberbotics.webots.controller.DifferentialWheels;
 
 public class RobotController extends DifferentialWheels {
-    private Camera camera;
-    private int height;
-    private int width;
     private static RobotController controller;
 
     private RobotController(int sensorResponse, String... sensorNames) {
         for (String sensorName : sensorNames) {
             getDistanceSensor(sensorName).enable(sensorResponse);
         }
-        camera = getCamera(getCameraName());
-        camera.enable(sensorResponse);
-        height = camera.getHeight();
-        width = camera.getWidth();
+        getCamera(getCameraName()).enable(sensorResponse);
         getLightSensor("ls0").enable(sensorResponse);
         getLightSensor("ls1").enable(sensorResponse);
         getLightSensor("ls2").enable(sensorResponse);
@@ -32,7 +26,7 @@ public class RobotController extends DifferentialWheels {
 
     public static RobotController getInstance() {
         if (controller == null) {
-            controller = new RobotController(10, "ps0", "ps1", "ps2", "ps3", "ps4", "ps5", "ps6", "ps7");
+            controller = new RobotController(10, "ps0", "ps1", "ps6", "ps7");
             return controller;
         }
         return controller;
@@ -86,11 +80,11 @@ public class RobotController extends DifferentialWheels {
         int red = 0;
         int green = 0;
         int blue = 0;
-        for (int i = width / 3; i < 2 * width / 3; i++) {
-            for (int j = height / 2; j < 3 * height / 4; j++) {
-                red += Camera.imageGetRed(image, width, i, j);
-                green += Camera.imageGetGreen(image, width, i, j);
-                blue += Camera.imageGetBlue(image, width, i, j);
+        for (int i = getCameraWidth() / 3; i < 2 * getCameraWidth() / 3; i++) {
+            for (int j = getCameraHeight() / 2; j < 3 * getCameraHeight() / 4; j++) {
+                red += Camera.imageGetRed(image, getCameraWidth(), i, j);
+                green += Camera.imageGetGreen(image, getCameraWidth(), i, j);
+                blue += Camera.imageGetBlue(image, getCameraWidth(), i, j);
             }
         }
         System.out.println("RED: " + red);
@@ -110,17 +104,15 @@ public class RobotController extends DifferentialWheels {
         Behaviour searchBall = new SearchBall();
         Behaviour driveToBall = new DriveToBall();
         Behaviour balanceBall = new BalanceBall();
-        Behaviour driveToMiddle = new DriveToMiddle();
+        Behaviour driveBack = new DriveBack();
 
         while (step(15) != -1) {
 
-
-
             double[] speedValues = new double[2];
 
-            if (driveToMiddle.activatable()) {
+            if (driveBack.activatable()) {
                 System.out.println("Part from Ball.");
-                speedValues = driveToMiddle.calcSpeed();
+                speedValues = driveBack.calcSpeed();
 
             } else if (balanceBall.activatable()) {
                 System.out.println("Balance Ball.");

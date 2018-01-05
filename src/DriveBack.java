@@ -1,4 +1,4 @@
-public class DriveToMiddle extends Behaviour {
+public class DriveBack extends Behaviour {
     private boolean reachedWall = false;
 
     @Override
@@ -7,7 +7,6 @@ public class DriveToMiddle extends Behaviour {
         if (controller.getZAccel() > 10 && controller.getZAccel() < 12) {
             reachedWall = true;
         }
-
         if (controller.getLeftEncoder() > 0 && controller.getRightEncoder() > 0 && reachedWall) {
             return true;
         }
