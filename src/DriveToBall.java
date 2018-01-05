@@ -1,7 +1,7 @@
 public class DriveToBall extends Behaviour {
     @Override
     public boolean activatable() {
-        return controller.calcRed() < 38600;
+        return controller.calcRed() < 3600;
     }
 
     @Override

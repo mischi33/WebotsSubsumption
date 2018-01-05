@@ -1,16 +1,21 @@
 public class DriveBack extends Behaviour {
     private boolean reachedWall = false;
+    private int driveBackValue=400;
 
     @Override
     public boolean activatable() {
 
-        if (controller.getZAccel() > 10 && controller.getZAccel() < 12) {
+        if (controller.getZAccel() > 10 && controller.getZAccel() < 10.9 && !reachedWall) {
+            System.out.println(controller.getZAccel());
             reachedWall = true;
         }
-        if (controller.getLeftEncoder() > 0 && controller.getRightEncoder() > 0 && reachedWall) {
+
+        if (driveBackValue > 0 && reachedWall) {
+            driveBackValue--;
             return true;
         }
-        if (controller.getLeftEncoder() <= 0 || controller.getRightEncoder() <= 0) {
+        if (driveBackValue <= 0 ) {
+            driveBackValue=400;
             reachedWall = false;
         }
         return false;
@@ -18,6 +23,6 @@ public class DriveBack extends Behaviour {
 
     @Override
     public double[] calcSpeed() {
-        return new double[]{-1000, -1000};
+        return new double[]{-970, -1000};
     }
 }
