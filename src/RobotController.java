@@ -1,8 +1,11 @@
 import com.cyberbotics.webots.controller.Camera;
 import com.cyberbotics.webots.controller.DifferentialWheels;
 
+import java.util.ArrayList;
+
 public class RobotController extends DifferentialWheels {
     private static RobotController controller;
+    public ArrayList<double[]> way = new ArrayList<>();
 
     private RobotController(int sensorResponse, String... sensorNames) {
         for (String sensorName : sensorNames) {
@@ -26,7 +29,7 @@ public class RobotController extends DifferentialWheels {
 
     public static RobotController getInstance() {
         if (controller == null) {
-            controller = new RobotController(10, "ps0", "ps1", "ps6", "ps7");
+            controller = new RobotController(10, "ps0", "ps1", "ps3", "ps4", "ps6", "ps7");
             return controller;
         }
         return controller;
@@ -73,6 +76,17 @@ public class RobotController extends DifferentialWheels {
 
     public double[] getEncoderValues() {
         return new double[]{this.getLeftEncoder(), this.getRightEncoder()};
+    }
+
+    protected void saveMove(double[] way){
+        this.way.add(way);
+
+    }
+    protected ArrayList<double[]> getWay(){
+           return this.way;
+    }
+    protected void deleteWay(){
+        way=new ArrayList<>();
     }
 
     public int calcRed() {
