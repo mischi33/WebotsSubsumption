@@ -5,23 +5,13 @@ import java.util.ArrayList;
 
 public class RobotController extends DifferentialWheels {
     private static RobotController controller;
-    public ArrayList<double[]> way = new ArrayList<>();
+    private ArrayList<double[]> moves = new ArrayList<>();
 
     private RobotController(int sensorResponse, String... sensorNames) {
         for (String sensorName : sensorNames) {
             getDistanceSensor(sensorName).enable(sensorResponse);
         }
         getCamera(getCameraName()).enable(sensorResponse);
-        getLightSensor("ls0").enable(sensorResponse);
-        getLightSensor("ls1").enable(sensorResponse);
-        getLightSensor("ls2").enable(sensorResponse);
-        getLightSensor("ls3").enable(sensorResponse);
-        getLightSensor("ls4").enable(sensorResponse);
-        getLightSensor("ls5").enable(sensorResponse);
-        getLightSensor("ls6").enable(sensorResponse);
-        getLightSensor("ls7").enable(sensorResponse);
-
-
         this.getAccelerometer(getAccelerometerName()).enable(sensorResponse);
 
         this.enableEncoders(sensorResponse);
@@ -29,7 +19,7 @@ public class RobotController extends DifferentialWheels {
 
     public static RobotController getInstance() {
         if (controller == null) {
-            controller = new RobotController(10, "ps0", "ps1", "ps3", "ps4", "ps6", "ps7");
+            controller = new RobotController(10, "ps0", "ps1", "ps6", "ps7");
             return controller;
         }
         return controller;
@@ -78,15 +68,17 @@ public class RobotController extends DifferentialWheels {
         return new double[]{this.getLeftEncoder(), this.getRightEncoder()};
     }
 
-    protected void saveMove(double[] way){
-        this.way.add(way);
+    protected void saveMove(double[] move) {
+        this.moves.add(move);
 
     }
-    protected ArrayList<double[]> getWay(){
-           return this.way;
+
+    protected ArrayList<double[]> getMoveList() {
+        return this.moves;
     }
-    protected void deleteWay(){
-        way=new ArrayList<>();
+
+    protected void clearMoveList() {
+        moves = new ArrayList<>();
     }
 
     public int calcRed() {
@@ -125,7 +117,7 @@ public class RobotController extends DifferentialWheels {
             double[] speedValues = new double[2];
 
             if (driveBack.activatable()) {
-                System.out.println("Part from Ball.");
+                System.out.println("Drive Back.");
                 speedValues = driveBack.calcSpeed();
 
             } else if (balanceBall.activatable()) {
