@@ -7,7 +7,7 @@ public class DriveBack extends Behaviour {
 
     @Override
     public boolean activatable() {
-        if (((controller.getZAccel() > 9.82 && controller.getYAccel() < -4) || controller.getYAccel() > 4.5 || controller.getZAccel() > 10) && controller.getZAccel() < 12 && controller.getYAccel() > -7 && controller.getZAccel() > 9.8) {
+        if (((controller.getZAccel() > 9.82 && controller.getYAccel() < -4) ||  controller.getZAccel() > 10) && controller.getZAccel() < 12 && controller.getYAccel() > -7 && controller.getZAccel() > 9.8) {
             System.out.println(controller.getYAccel());
             System.out.println(controller.getZAccel());
             reachedWall = true;

@@ -6,8 +6,8 @@ public class DriveToBall extends Behaviour {
 
     @Override
     public double[] calcSpeed() {
-        controller.saveMove(new double[] {-1000.0, -1000.0});
-        return new double[] {1000.0, 1000.0};
+        controller.saveMove(new double[] {-800, -800});
+        return new double[] {800, 800};
     }
 
 
