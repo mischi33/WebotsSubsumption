@@ -7,7 +7,7 @@ public class DriveBack extends Behaviour {
 
     @Override
     public boolean activatable() {
-        if (((controller.getZAccel() > 9.82 && controller.getYAccel() < -4) ||  controller.getZAccel() > 10) && controller.getZAccel() < 12 && controller.getYAccel() > -7 && controller.getZAccel() > 9.8) {
+        if (!reachedWall && ((controller.getZAccel() > 9.82 && controller.getYAccel() < -4.3) ||  controller.getZAccel() > 10) && controller.getZAccel() < 12 && controller.getYAccel() > -7 && controller.getZAccel() > 9.8) {
             System.out.println(controller.getYAccel());
             System.out.println(controller.getZAccel());
             reachedWall = true;
@@ -15,11 +15,11 @@ public class DriveBack extends Behaviour {
             counter = moves.size() - 1;
         }
 
-        if (counter > -10 && reachedWall) {
+        if (counter > -12 && reachedWall) {
             counter--;
             return true;
         }
-        if (reachedWall && counter == -10) {
+        if (reachedWall && counter == -12) {
             controller.clearMoveList();
             reachedWall = false;
         }
@@ -31,6 +31,9 @@ public class DriveBack extends Behaviour {
 
         if (counter >= 0) {
             return moves.get(counter);
+        } else if (counter > 0) {
+            counter = 0;
+            return new double[]{1000, 100};
         } else {
             return new double[]{1000, 100};
         }

@@ -13,8 +13,6 @@ public class RobotController extends DifferentialWheels {
         }
         getCamera(getCameraName()).enable(sensorResponse);
         this.getAccelerometer(getAccelerometerName()).enable(sensorResponse);
-
-        this.enableEncoders(sensorResponse);
     }
 
     public static RobotController getInstance() {
@@ -81,7 +79,7 @@ public class RobotController extends DifferentialWheels {
         moves = new ArrayList<>();
     }
 
-    public int calcRed() {
+    public int[] calcColors() {
         int[] image = getCameraValues();
         int red = 0;
         int green = 0;
@@ -96,7 +94,7 @@ public class RobotController extends DifferentialWheels {
         System.out.println("RED: " + red);
         System.out.println("GREEN: " + green);
         System.out.println("BLUE: " + blue);
-        return red;
+        return new int[] {red, green, blue};
     }
 
 
